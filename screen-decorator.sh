@@ -11,12 +11,16 @@ function _fix_env {
 
     [ -n "$name" ] || return 0
 
+    [ -n "SDLOG" ] && echo "fixing env for name: $name" 
+
     for record in $(env | grep -E "^[^=]*$name.*=")
     do
         local n="${record%%=*}"
         local v="${record#*=}"
 
         local s="${n/$name}"
+
+        [ -n "SDLOG" ] && echo "rename to $s : $n=$v"
 
         unset $n
         export $s=$v
@@ -34,6 +38,7 @@ function _screen_env_fixer {
         if [ -n "$found" ]
         then
             name="$arg"
+            [ -n "SDLOG" ] && echo "found screen name: $name"
             break
         fi
 
