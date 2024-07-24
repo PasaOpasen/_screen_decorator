@@ -1,4 +1,5 @@
 
+shopt -s expand_aliases
 
 function _fix_env {
     #
@@ -44,14 +45,17 @@ function _screen_env_fixer {
 
     if [ -n "$name" ]
     then
-        _fix_env "$name"
+        _fix_env "$(echo $name | tr '-' '_')"
     fi
 
 }
 
 function _screen_decorator {
-    _screen_env_fixer "$@"
-    /usr/bin/screen "$@"
+    # subshell is required to not impact actual environment 
+    (
+        _screen_env_fixer "$@"
+        /usr/bin/screen "$@"        
+    )
 }
 
 if [ -e /usr/bin/screen ] 
