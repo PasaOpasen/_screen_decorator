@@ -1,5 +1,12 @@
+#
+# provides an alias to GNU Screen command
+#   which transforms some environment variables exclusively for each screen
+#       depending on screen name
+#
+# set SDLOG=1 to enable logging
+#
 
-shopt -s expand_aliases
+set -a
 
 function _fix_env {
     #
@@ -65,8 +72,11 @@ function _screen_decorator {
 
 if [ -e /usr/bin/screen ] 
 then
-    alias screen=_screen_decorator
+    function screen {
+        _screen_decorator "$@"
+    }
+    # alias screen=_screen_decorator
 fi
 
-
+set +a
 

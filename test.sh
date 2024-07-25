@@ -1,5 +1,8 @@
 
 
+./entrypoint.sh 'type screen'
+
+
 source variables.sh
 
 source screen-decorator.sh
