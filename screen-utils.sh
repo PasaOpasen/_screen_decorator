@@ -2,6 +2,8 @@
 # different screen utils
 #
 
+set -a
+
 function dump_screen_output {
     local name=$1
     if [ -z "$name" ]
@@ -39,3 +41,5 @@ function dump_screens_output {
     done
 }
 
+
+set +a
