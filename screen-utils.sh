@@ -14,7 +14,7 @@ function dump_screen_output {
     mkdir -p "$(dirname "$file")"
     if screen -X -S "$name" hardcopy -h $file
     then
-        echo "dumped to $file"
+        echo "screen $name is dumped to $file"
     else
         echo -e "ERROR: bad screen name $name\n\nexisting screens:"
         screen -ls
