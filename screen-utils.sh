@@ -14,7 +14,7 @@ function dump_screen_output {
     local file=${2:-/tmp/screen_output}
 
     mkdir -p "$(dirname "$file")"
-    if screen -X -S "$name" hardcopy -h $file
+    if /usr/bin/screen -X -S "$name" hardcopy -h $file
     then
         echo "screen $name log is dumped to $file"
     else
