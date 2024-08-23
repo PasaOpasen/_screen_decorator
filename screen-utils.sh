@@ -32,12 +32,12 @@ function dump_screens_output {
     fi
 
     local ident
-    for ident in $(screen -ls | grep -P '^\s+\d+' | awk '{ print $1 }')
+    for ident in $(screen -ls | grep -P '^\s+\d+' | grep -v 'Dead ' | awk '{ print $1 }')
     do 
         number=${ident%.*}
         name=${ident#*.}
 
-        dump_screen_output $number "$folder/$name.$number.txt"
+        dump_screen_output $ident "$folder/$name.$number.txt"
     done
 }
 
