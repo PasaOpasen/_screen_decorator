@@ -42,4 +42,70 @@ function dump_screens_output {
 }
 
 
+function screen-exists {
+    if [ -z "$1" ]
+    then 
+        echo "usage: screen-exists <screen ID/NAME/ID.NAME>"
+        return 0
+    fi
+    /usr/bin/screen -S "$1" -Q select . &> /dev/null
+}
+
+function screen-stop {
+    if [ -z "$1" ]
+    then 
+        echo "usage: screen-stop <screen ID/NAME/ID.NAME>"
+        return 0
+    fi
+
+    if screen-exists "$1"
+    then
+        /usr/bin/screen screen -X -S "$1" quit
+    else
+        echo "No such screen: $1" 1>&2
+        screen -ls
+        return 1
+    fi
+}
+
+function screen-restart {
+    if [ -z "$1" ]
+    then 
+        echo "usage: screen-restart <screen ID/NAME/ID.NAME>"
+        return 0
+    fi
+
+    if screen-exists "$1"
+    then
+        local file="$(mktemp)"
+        screen-save "$1" "$file"
+        screen-stop "$1"
+        /usr/bin/screen -dmS n -c "$file" 
+    else
+        echo "No such screen: $1" 1>&2
+        screen -ls
+        return 1
+    fi
+}
+
+function screen-copy {
+    if [ -z "$1" ]
+    then 
+        echo "usage: screen-copy <screen ID/NAME/ID.NAME>"
+        return 0
+    fi
+
+    if screen-exists "$1"
+    then
+        local file="$(mktemp)"
+        screen-save "$1" "$file"
+        /usr/bin/screen -dmS n -c "$file" 
+    else
+        echo "No such screen: $1" 1>&2
+        screen -ls
+        return 1
+    fi
+}
+
+
 set +a
